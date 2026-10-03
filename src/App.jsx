@@ -604,6 +604,9 @@ function LandingPage() {
         <p>ليلة من نور، وعمرٌ من محبة</p>
         {coupleNames && <span>{coupleNames}</span>}
         <Heart size={13} fill="currentColor" />
+        <Link className="footer-admin-link" to="/admin">
+          لوحة التحكم
+        </Link>
       </footer>
 
       <MusicPlayer url={weddingData.music_url} />
@@ -1299,7 +1302,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/admin" element={<AdminPage />} />
-      <Route path="/dashboard" element={<Navigate to="/admin" replace />} />
+      <Route path="/dashboard" element={<AdminPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
