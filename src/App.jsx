@@ -76,6 +76,15 @@ function formatDate(date) {
   }).format(parsed);
 }
 
+function formatWeddingTime(time) {
+  const match = /^(\d{1,2}):(\d{2})(?::\d{2})?$/.exec(time || "");
+  if (!match) return time || "";
+  const hour = Number(match[1]);
+  const displayHour = hour % 12 || 12;
+  const period = hour >= 12 ? "مساءً" : "صباحاً";
+  return `${displayHour}:${match[2]} ${period}`;
+}
+
 function getRemainingTime(date) {
   if (!date) return null;
   const target = new Date(`${date}T00:00:00`).getTime();
@@ -381,8 +390,6 @@ function LandingPage() {
         <div className="hero-frame">
           <div className="hero-topline">
             <span>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
-            <span className="topline-star">✳</span>
-            <span>وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم</span>
           </div>
           <div className="hero-content" id="story">
             <div className="eyebrow">
@@ -419,7 +426,7 @@ function LandingPage() {
                   <>
                     <span className="date-separator">·</span>
                     <Clock3 size={15} />
-                    {weddingData.wedding_time}
+                    {formatWeddingTime(weddingData.wedding_time)}
                   </>
                 )}
               </div>
@@ -503,7 +510,7 @@ function LandingPage() {
                 {loading ? (
                   <span className="skeleton event-value-skeleton" />
                 ) : (
-                  <p>{weddingData.wedding_time || "لم يُحدّد بعد"}</p>
+                  <p>{weddingData.wedding_time ? formatWeddingTime(weddingData.wedding_time) : "لم يُحدّد بعد"}</p>
                 )}
               </div>
             </div>
@@ -600,13 +607,21 @@ function LandingPage() {
       )}
 
       <footer className="site-footer">
-        <Ornament className="ornament" />
-        <p>ليلة من نور، وعمرٌ من محبة</p>
-        {coupleNames && <span>{coupleNames}</span>}
-        <Heart size={13} fill="currentColor" />
-        <Link className="footer-admin-link" to="/admin">
-          لوحة التحكم
-        </Link>
+        <div className="footer-dedication" dir="rtl">
+          <Ornament className="ornament" />
+          <p>ليلة من نور، وعمرٌ من محبة</p>
+          {coupleNames && <span>{coupleNames}</span>}
+          <Heart size={13} fill="currentColor" />
+        </div>
+        <a
+          className="developer-watermark"
+          href="https://y0ussef-hany.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          dir="ltr"
+        >
+          Youssef Hany — Full Stack Developer
+        </a>
       </footer>
 
       <MusicPlayer url={weddingData.music_url} />
